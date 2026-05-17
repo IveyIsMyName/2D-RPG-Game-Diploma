@@ -1,4 +1,4 @@
-public class PlayerJumpAttackState : EntityState
+public class PlayerJumpAttackState : PlayerState
 {
     private bool touchedGround;
     public PlayerJumpAttackState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
