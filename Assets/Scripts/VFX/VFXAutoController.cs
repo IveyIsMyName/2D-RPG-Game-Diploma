@@ -4,10 +4,12 @@ public class VFXAutoController : MonoBehaviour
 {
     [SerializeField] private bool autoDestroy = true;
     [SerializeField] private float destroyDelay = 1;
-
-    [Header("Random Position")]
     [SerializeField] private bool randomOffset = true;
     [SerializeField] private bool randomRotation = true;
+    [Header("Random Rotation")]
+    [SerializeField] private float minRotation = 0;
+    [SerializeField] private float maxRotation = 360;
+    [Header("Random Position")]
     [SerializeField] private float xMinOffset = -.3f;
     [SerializeField] private float xMaxOffset = .3f;
     [Space]
@@ -39,7 +41,7 @@ public class VFXAutoController : MonoBehaviour
         if(randomRotation == false) 
             return;
 
-        float zRotation = Random.Range(0, 360);
+        float zRotation = Random.Range(minRotation, maxRotation);
         transform.Rotate(0,0,zRotation);
     }
 }

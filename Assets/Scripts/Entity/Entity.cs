@@ -9,6 +9,7 @@ public class Entity : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
     protected StateMachine stateMachine;
+    public EntityStats stats { get; private set; }
 
     private bool facingRight = true;
     public int facingDir { get; private set; } = 1;
@@ -23,14 +24,15 @@ public class Entity : MonoBehaviour
     public bool groundDetected { get; private set; }
     public bool wallDetected { get; private set; }
 
-    //knockback variables
-    private Coroutine knockBackCo;
     private bool isKnocked;
+    private Coroutine knockBackCo;
+    private Coroutine slowDownCo;
 
     protected virtual void Awake()
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        stats = GetComponent<EntityStats>();
 
         stateMachine = new StateMachine();
     }
@@ -48,13 +50,13 @@ public class Entity : MonoBehaviour
 
     public void ReceiveKnockBack(Vector2 knockback, float duration)
     {
-        if (knockBackCo!= null)
+        if (knockBackCo != null)
             StopCoroutine(knockBackCo);
 
         knockBackCo = StartCoroutine(KnockBackCo(knockback, duration));
     }
 
-    private IEnumerator KnockBackCo(Vector2 knockback ,float duration)
+    private IEnumerator KnockBackCo(Vector2 knockback, float duration)
     {
         isKnocked = true;
         rb.linearVelocity = knockback;
@@ -73,6 +75,19 @@ public class Entity : MonoBehaviour
     public virtual void EntityDeath()
     {
 
+    }
+
+    public virtual void SlowDownEntity(float duration, float slowMultiplier)
+    {
+        if (slowDownCo != null)
+            StopCoroutine(slowDownCo);
+
+        slowDownCo = StartCoroutine(SlowDownEntityCo(duration, slowMultiplier));
+    }
+
+    protected virtual IEnumerator SlowDownEntityCo(float duration, float slowMultiplier)
+    {
+        yield return null;
     }
 
     public void SetVelocity(float xVelocity, float yVelocity)
