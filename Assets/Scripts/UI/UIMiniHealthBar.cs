@@ -6,14 +6,20 @@ public class UIMiniHealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        entity.OnFlipped += HadleFlip;
+        if (entity == null)
+            return;
+
+        entity.OnFlipped += HandleFlip;
     }
 
-    private void HadleFlip() => transform.rotation = Quaternion.identity;
+    private void HandleFlip() => transform.rotation = Quaternion.identity;
 
     private void OnDisable()
     {
-        entity.OnFlipped -= HadleFlip;
+        if (entity == null)
+            return;
+
+        entity.OnFlipped -= HandleFlip;
     }
 
 }
