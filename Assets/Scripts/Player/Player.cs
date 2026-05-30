@@ -11,6 +11,10 @@ public class Player : Entity
 
     private UI ui;
     public PlayerInputSet input { get; private set; }
+    public PlayerSkillManager skillManager { get; private set; }
+    public PlayerVFX vfx { get; private set; }
+
+    #region State Variables
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
@@ -22,6 +26,7 @@ public class Player : Entity
     public PlayerJumpAttackState jumpAttackState { get; private set; }
     public PlayerDeadState deadState { get; private set; }
     public PlayerCounterAttackState counterAttackState { get; private set; }
+    #endregion
 
     [Header("Attack details")]
     public Vector2[] attackVelocity;
@@ -48,6 +53,8 @@ public class Player : Entity
 
         ui = FindAnyObjectByType<UI>();
         input = new PlayerInputSet();
+        skillManager = GetComponent<PlayerSkillManager>();
+        vfx = GetComponent<PlayerVFX>();
 
         idleState = new PlayerIdleState(this, stateMachine, "idle");
         moveState = new PlayerMoveState(this, stateMachine, "move");
@@ -66,6 +73,9 @@ public class Player : Entity
         base.Start();
         stateMachine.Initialize(idleState);
     }
+
+    public void TeleportPlayer(Vector3 position) => transform.position = position;
+
     public override void EntityDeath()
     {
         base.EntityDeath();
@@ -80,6 +90,7 @@ public class Player : Entity
         input.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         input.Player.Movement.canceled += ctx => moveInput = Vector2.zero;
         input.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
+        input.Player.Spell.performed += ctx => skillManager.shard.TryUseSkill();
     }
     private void OnDisable()
     {

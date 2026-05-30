@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EntityVFX : MonoBehaviour
 {
-    private SpriteRenderer sr;
+    protected SpriteRenderer sr;
     private Entity entity;
 
     [Header("On Taking Damage VFX")]
@@ -18,7 +18,7 @@ public class EntityVFX : MonoBehaviour
     [Header("Element Colors")]
     [SerializeField] private Color chillVFX = Color.cyan;
     [SerializeField] private Color burnVFX = Color.red;
-    [SerializeField] private Color electrifyVFX = Color.yellow;
+    [SerializeField] private Color shockVFX = Color.yellow;
     private Color originalHitVFXColor;
 
     private Material originalMaterial;
@@ -32,23 +32,26 @@ public class EntityVFX : MonoBehaviour
         originalHitVFXColor = hitVFXColor;
     }
 
-    public void CreateOnHitVFX(Transform target, bool isCrit)
+    public void CreateOnHitVFX(Transform target, bool isCrit, ElementType element)
     {
         GameObject hitPrefab = isCrit ? critHitVFX : hitVFX;
         GameObject vfx = Instantiate(hitPrefab, target.position, Quaternion.identity);
-        vfx.GetComponentInChildren<SpriteRenderer>().color = hitVFXColor;
+        //vfx.GetComponentInChildren<SpriteRenderer>().color = GetElementColor(element);
 
         if (entity.facingDir == -1 && isCrit)
             vfx.transform.Rotate(0, 180, 0);
     }
 
-    public void UpdateOnHitColor(ElementType element)
+    public Color GetElementColor(ElementType element)
     {
-        if (element == ElementType.Ice)
-            hitVFXColor = chillVFX;
+        switch (element)
+        {
+            case ElementType.Ice: return chillVFX;
+            case ElementType.Fire: return burnVFX;
+            case ElementType.Lightning: return shockVFX;
 
-        if (element == ElementType.None)
-            hitVFXColor = originalHitVFXColor;
+            default: return Color.white;
+        }
     }
 
     public void PlayOnDamageVFX()
@@ -68,7 +71,7 @@ public class EntityVFX : MonoBehaviour
             StartCoroutine(PlayStatusVFXCo(duration, burnVFX));
         
         if(element == ElementType.Lightning)
-            StartCoroutine(PlayStatusVFXCo(duration, electrifyVFX));
+            StartCoroutine(PlayStatusVFXCo(duration, shockVFX));
     }
 
     public void StopAllVFX()
