@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Create a time shard filled with elemental magic. The shard explodes
     when touched by an enemy or when time goes up.
   icon: {fileID: 224716035, guid: 46fd9c4514c12bb4cb95ebb687493f53, type: 3}
-  cost: 0
+  cost: 1
   unlockedByDefault: 0
   skillType: 2
   upgradeData:

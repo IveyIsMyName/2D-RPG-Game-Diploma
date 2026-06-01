@@ -6,6 +6,9 @@ public class EnemyHealth : EntityHealth
 
     public override void TakeDamage(float damage, float elementalDamage, ElementType element, Transform damageDealer)
     {
+        if (canTakeDamage == false)
+            return;
+
         base.TakeDamage(damage, elementalDamage, element, damageDealer);
 
         if (isDead)

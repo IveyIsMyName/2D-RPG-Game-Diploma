@@ -10,10 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10998cb03d423184794573d6b17ef8a2, type: 3}
-  m_Name: Skill Data - Cleanse
+  m_Name: Skill Data - Cleanse Wisp
   m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
-  cost: 3
-  displayName: Cleanse
-  description: The healing wisp reduces the duration of negative status effects by
-    1 second.
+  displayName: Cleanse Wisp
+  description: The healing wisp remove all negative status effects.
   icon: {fileID: 890517961, guid: 46fd9c4514c12bb4cb95ebb687493f53, type: 3}
+  cost: 3
+  unlockedByDefault: 0
+  skillType: 1
+  upgradeData:
+    upgradeType: 20
+    cooldown: 2
+    damageScale:
+      physical: 1
+      elemental: 1
+      chillDuration: 3
+      chillSlowMultiplier: 0.2
+      burnDuration: 3
+      burnDamageScale: 1
+      shockDuration: 3
+      shockDamageScale: 1
+      shockCharge: 0.4

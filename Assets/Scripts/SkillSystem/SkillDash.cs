@@ -4,7 +4,7 @@ public class SkillDash : SkillBase
 {
     public void OnStartEffect()
     {
-        if(Unlocked(SkillUpgradeType.DashCloneOnStart) || Unlocked(SkillUpgradeType.DashCloneStartAndArrival))
+        if (Unlocked(SkillUpgradeType.DashCloneOnStart) || Unlocked(SkillUpgradeType.DashCloneStartAndArrival))
             CreateClone();
 
         if (Unlocked(SkillUpgradeType.DashShardOnStart) || Unlocked(SkillUpgradeType.DashShardOnStartAndArrival))
@@ -27,6 +27,6 @@ public class SkillDash : SkillBase
 
     private void CreateClone()
     {
-        Debug.Log("Create a time echo!");
+        skillManager.timeEcho.CreateTimeEcho();
     }
 }

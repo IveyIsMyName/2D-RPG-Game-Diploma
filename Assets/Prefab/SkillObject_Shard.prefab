@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d587ad2f6d5ea40acf33c5f3412514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillObjectShard
+  onHitVFX: {fileID: 7710545024658087923, guid: 0c83cf99ce7329b49b272657b6074b99, type: 3}
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 256

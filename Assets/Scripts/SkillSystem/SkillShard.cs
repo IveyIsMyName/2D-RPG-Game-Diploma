@@ -30,6 +30,32 @@ public class SkillShard : SkillBase
         currentCharges = maxCharges;
         playerHealth = GetComponentInParent<EntityHealth>();
     }
+    public void CreateShard()
+    {
+        float detonateTime = GetDetonateTime();
+
+        GameObject shard = Instantiate(sharedPrefab, transform.position, Quaternion.identity);
+        currentShard = shard.GetComponent<SkillObjectShard>();
+        currentShard.SetupShard(this);
+
+        if (Unlocked(SkillUpgradeType.ShardTeleport) || Unlocked(SkillUpgradeType.ShardTeleportHPRewind))
+            currentShard.onExplode += ForceCooldown;
+    }
+
+    public void CreateRawShard(Transform target = null, bool shardsCanMove = false)
+    {
+        bool canMove = shardsCanMove == false ?
+            Unlocked(SkillUpgradeType.ShardMoveToEnemy) || Unlocked(SkillUpgradeType.ShardMultiCast)
+            : shardsCanMove;
+
+        GameObject shard = Instantiate(sharedPrefab, transform.position, Quaternion.identity);
+        shard.GetComponent<SkillObjectShard>().SetupShard(this, detonateTime, canMove, shardSpeed, target);
+    }
+
+    public void CreateDomainShard(Transform target)
+    {
+
+    }
 
     public override void TryUseSkill()
     {
@@ -130,25 +156,7 @@ public class SkillShard : SkillBase
         SetSkillOnCooldown();
     }
 
-    public void CreateShard()
-    {
-        float detonateTime = GetDetonateTime();
-
-        GameObject shard = Instantiate(sharedPrefab, transform.position, Quaternion.identity);
-        currentShard = shard.GetComponent<SkillObjectShard>();
-        currentShard.SetupShard(this);
-
-        if (Unlocked(SkillUpgradeType.ShardTeleport) || Unlocked(SkillUpgradeType.ShardTeleportHPRewind))
-            currentShard.onExplode += ForceCooldown;
-    }
-
-    public void CreateRawShard()
-    {
-        bool canMove = Unlocked(SkillUpgradeType.ShardMoveToEnemy) || Unlocked(SkillUpgradeType.ShardMultiCast);
-
-        GameObject shard = Instantiate(sharedPrefab, transform.position, Quaternion.identity);
-        shard.GetComponent<SkillObjectShard>().SetupShard(this, detonateTime, canMove, shardSpeed);
-    }
+   
 
     public float GetDetonateTime()
     {

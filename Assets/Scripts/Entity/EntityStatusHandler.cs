@@ -23,6 +23,13 @@ public class EntityStatusHandler : MonoBehaviour
         entityHealth = GetComponent<EntityHealth>();
     }
 
+    public void RemoveAllNegativeEffects()
+    {
+        StopAllCoroutines();
+        currentEffect = ElementType.None;
+        entityVFX.StopAllVFX();
+    }
+
     public void ApplyStatusEffect(ElementType element, ElementalEffectData effectData)
     {
         if (element == ElementType.Ice && CanBeApplied(ElementType.Ice))
@@ -35,7 +42,7 @@ public class EntityStatusHandler : MonoBehaviour
             ApplyShockEffect(effectData.shockDuration, effectData.shockDamage, effectData.shockCharge);
     }
 
-    public void ApplyChillEffect(float duration, float slowMultiplier)
+    private void ApplyChillEffect(float duration, float slowMultiplier)
     {
         float iceResistance = entityStats.GetElementalResistance(ElementType.Ice);
         float finalDuration = duration * (1 - iceResistance);
@@ -43,7 +50,7 @@ public class EntityStatusHandler : MonoBehaviour
         StartCoroutine(ChillEffectCo(finalDuration, slowMultiplier));
     }
 
-    public void ApplyBurnEffect(float duration, float fireDamage)
+    private void ApplyBurnEffect(float duration, float fireDamage)
     {
         float fireResistance = entityStats.GetElementalResistance(ElementType.Fire);
         float finalDamage = fireDamage * (1 - fireResistance);
@@ -51,7 +58,7 @@ public class EntityStatusHandler : MonoBehaviour
         StartCoroutine(BurnEffectCo(duration, finalDamage));
     }
 
-    public void ApplyShockEffect(float duration, float damage, float charge)
+    private void ApplyShockEffect(float duration, float damage, float charge)
     {
         float lightningResistance = entityStats.GetElementalResistance(ElementType.Lightning);
         float finalCharge = charge * (1 - lightningResistance);
