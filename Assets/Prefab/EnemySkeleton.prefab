@@ -442,7 +442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -475,6 +475,7 @@ GameObject:
   - component: {fileID: 6512048833958544475}
   - component: {fileID: 8609909053507307883}
   - component: {fileID: 2002122628888957586}
+  - component: {fileID: 5194199732685800431}
   m_Layer: 8
   m_Name: EnemySkeleton
   m_TagString: Untagged
@@ -615,16 +616,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3cf34d971521748a60e40eac17ff58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityCombat
+  basicAttackScale:
+    physical: 1
+    elemental: 1
+    chillDuration: 3
+    chillSlowMultiplier: 0.2
+    burnDuration: 3
+    burnDamageScale: 1
+    shockDuration: 3
+    shockDamageScale: 1
+    shockCharge: 0.4
   targetCheck: {fileID: 6542314550946517614}
   targetCheckRadius: 1
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 128
-  defaultDuration: 3
-  chillSlowMultiplier: 0.4
-  electrifyChargeBuildUp: 0.4
-  fireScale: 0.8
-  lighningScale: 2.5
 --- !u!114 &3537667649601658283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -638,7 +644,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   currentHealth: 0
-  isDead: 0
   regenInterval: 1
   canRegenerateHealth: 1
   knockbackPower: {x: 1.5, y: 2.5}
@@ -665,7 +670,7 @@ MonoBehaviour:
   critHitVFX: {fileID: 4671205488573456979, guid: 0779f77c094e6014a92aa55bb8a46833, type: 3}
   chillVFX: {r: 0, g: 0.61960787, b: 1, a: 1}
   burnVFX: {r: 1, g: 0.5176471, b: 0, a: 1}
-  electrifyVFX: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  shockVFX: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   attackAlert: {fileID: 6811187600698697886}
 --- !u!114 &8609909053507307883
 MonoBehaviour:
@@ -756,6 +761,22 @@ MonoBehaviour:
   lightningStrikeVFX: {fileID: 8044850394494239664, guid: b636e7fda7f83114894ea1ee6005cb21, type: 3}
   currentCharge: 0
   maximumCharge: 1
+--- !u!114 &5194199732685800431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4811654174125963081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0006c1c1cd34f154eb8b5ac5dd1dc53d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityDropManager
+  itemDropPrefab: {fileID: 7653373904870818169, guid: 6c0d0b1d750e6d74eb83f665c521530f, type: 3}
+  dropData: {fileID: 11400000, guid: 3454338a8c2bfb54c8c22ff6d2f2f8e0, type: 2}
+  maxRarityAmount: 1200
+  maxItemsToDrop: 3
 --- !u!1 &5190515757561729199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1035,7 +1056,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 59404645652616978}
   m_HandleRect: {fileID: 0}
@@ -1228,7 +1249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

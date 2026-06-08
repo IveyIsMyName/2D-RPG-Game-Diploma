@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerGroundedState : PlayerState
 {
@@ -13,16 +14,16 @@ public class PlayerGroundedState : PlayerState
         if (rb.linearVelocity.y < 0 && player.groundDetected == false)
             stateMachine.ChangeState(player.fallState);
 
-        if (input.Player.Jump.WasPressedThisFrame())
+        if (input.Player.Jump.WasPressedThisFrame() && !EventSystem.current.IsPointerOverGameObject())
             stateMachine.ChangeState(player.jumpState);
 
-        if (input.Player.Attack.WasPressedThisFrame())
+        if (input.Player.Attack.WasPressedThisFrame() && !EventSystem.current.IsPointerOverGameObject())
             stateMachine.ChangeState(player.basicAttackState);
 
-        if (input.Player.CounterAttack.WasPressedThisFrame())
+        if (input.Player.CounterAttack.WasPressedThisFrame() && !EventSystem.current.IsPointerOverGameObject())
             stateMachine.ChangeState(player.counterAttackState);
 
-        if (input.Player.RangeAttack.WasPressedThisFrame() && skillManager.swordThrow.CanUseSkill())
+        if (input.Player.RangeAttack.WasPressedThisFrame() && !EventSystem.current.IsPointerOverGameObject() && skillManager.swordThrow.CanUseSkill() )
             stateMachine.ChangeState(player.swordThrowState);
     }
 }

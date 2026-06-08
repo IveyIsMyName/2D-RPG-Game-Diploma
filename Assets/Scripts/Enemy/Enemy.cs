@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
-    public EnemyHealth health { get; private set; }
+	public EntityStats stats { get; private set; }
+	public EnemyHealth health { get; private set; }
     public EnemyIdleState idleState;
     public EnemyMoveState moveState;
     public EnemyAttackState attackState;
@@ -42,9 +43,10 @@ public class Enemy : Entity
     {
         base.Awake();
         health = GetComponent<EnemyHealth>();
-    }
+		stats = GetComponent<EntityStats>();
+	}
 
-    public float GetMoveSpeed() => moveSpeed * activeSlowMultiplier;
+	public float GetMoveSpeed() => moveSpeed * activeSlowMultiplier;
     public float GetBattleMoveSpeed() => battleMoveSpeed * activeSlowMultiplier;
 
     protected override IEnumerator SlowDownEntityCo(float duration, float slowMultiplier)

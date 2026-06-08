@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b180fb5b456db484ca220e56785bbecf, type: 3}
+  m_Name: Equipment data - Drakula's Fang
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDataSO
+  itemName: Drakula's Fang
+  itemIcon: {fileID: 1447280625, guid: 46fd9c4514c12bb4cb95ebb687493f53, type: 3}
+  itemType: 1
+  maxStackSize: 1
+  itemEffect: {fileID: 11400000, guid: ecb04ecc83fa8ae4d8ea0746efce6493, type: 2}
+  itemRarity: 962
+  dropChance: 3.9
+  maxDropChance: 100
+  modifiers:
+  - statType: 7
+    value: 10
+  - statType: 6
+    value: 0.15
+  - statType: 8
+    value: 0.1
+  - statType: 3
+    value: 6

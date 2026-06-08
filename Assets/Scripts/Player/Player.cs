@@ -9,12 +9,15 @@ public class Player : Entity
 {
     public static event Action OnPlayerDeath;
 
-    private UI ui;
+    public UI ui { get; private set; }
     public PlayerInputSet input { get; private set; }
     public PlayerSkillManager skillManager { get; private set; }
     public PlayerVFX vfx { get; private set; }
     public EntityHealth health { get; private set; }
     public EntityStatusHandler statusHandler { get; private set; }
+    public PlayerCombat combat { get; private set; }
+    public InventoryPlayer inventory {  get; private set; }
+    public PlayerStats stats { get; private set; }
 
     #region State Variables
     public PlayerIdleState idleState { get; private set; }
@@ -61,11 +64,16 @@ public class Player : Entity
         base.Awake();
 
         ui = FindAnyObjectByType<UI>();
-        input = new PlayerInputSet();
         skillManager = GetComponent<PlayerSkillManager>();
         vfx = GetComponent<PlayerVFX>();
         statusHandler = GetComponent<EntityStatusHandler>();
         health = GetComponent<EntityHealth>();
+        combat = GetComponent<PlayerCombat>();
+        inventory = GetComponent<InventoryPlayer>();
+        stats = GetComponent<PlayerStats>();
+        
+        input = new PlayerInputSet();
+        ui.SetupControlsUI(input);
 
         idleState = new PlayerIdleState(this, stateMachine, "idle");
         moveState = new PlayerMoveState(this, stateMachine, "move");
@@ -96,23 +104,7 @@ public class Player : Entity
         OnPlayerDeath?.Invoke();
         stateMachine.ChangeState(deadState);
     }
-    private void OnEnable()
-    {
-        input.Enable();
-
-        input.Player.Mouse.performed += ctx => mousePosition = ctx.ReadValue<Vector2>();
-
-        input.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        input.Player.Movement.canceled += ctx => moveInput = Vector2.zero;
-
-        input.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
-        input.Player.Spell.performed += ctx => skillManager.shard.TryUseSkill();
-        input.Player.Spell.performed += ctx => skillManager.timeEcho.TryUseSkill();
-    }
-    private void OnDisable()
-    {
-        input.Disable();
-    }
+    
     public void EnterAttackStateWithDelay()
     {
         if (queuedAttackCo != null)
@@ -162,4 +154,23 @@ public class Player : Entity
             attackVelocity[i] = originalAttackVelocity[i];
         }
     }
+	private void OnEnable()
+	{
+		input.Enable();
+
+		input.Player.Mouse.performed += ctx => mousePosition = ctx.ReadValue<Vector2>();
+
+		input.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+		input.Player.Movement.canceled += ctx => moveInput = Vector2.zero;
+
+		input.Player.Spell.performed += ctx => skillManager.shard.TryUseSkill();
+		input.Player.Spell.performed += ctx => skillManager.timeEcho.TryUseSkill();
+
+        input.Player.QuickItemSlot_1.performed += ctx => inventory.TryUseQuickItemInSlot(1);
+        input.Player.QuickItemSlot_2.performed += ctx => inventory.TryUseQuickItemInSlot(2);
+	}
+	private void OnDisable()
+	{
+		input.Disable();
+	}
 }

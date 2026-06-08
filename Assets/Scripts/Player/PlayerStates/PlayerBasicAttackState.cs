@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 public class PlayerBasicAttackState : PlayerState
 {
     private float attackVelocityTimer;
@@ -36,7 +36,7 @@ public class PlayerBasicAttackState : PlayerState
         base.Update();
         HandleAttackVelocity();
 
-        if (input.Player.Attack.WasPressedThisFrame())
+        if (input.Player.Attack.WasPressedThisFrame() && !EventSystem.current.IsPointerOverGameObject())
             QueueNextAttack();
 
         if (triggerCalled)

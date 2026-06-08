@@ -1,12 +1,17 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class EntityHealth : MonoBehaviour, IDamagable
 {
+    public event Action OnTakingDamage;
+    public event Action OnHealthUpdate;
+
     private Slider healthBar;
     private EntityVFX entityVFX;
     private EntityStats entityStats;
     private Entity entity;
+    private EntityDropManager dropManager;
 
     [SerializeField] private float currentHealth;
     [Header("Health regen")]
@@ -30,6 +35,7 @@ public class EntityHealth : MonoBehaviour, IDamagable
         entityVFX = GetComponent<EntityVFX>();
         entityStats = GetComponent<EntityStats>();
         healthBar = GetComponentInChildren<Slider>();
+        dropManager = GetComponent<EntityDropManager>();
 
         SetupHealth();
     }
@@ -40,6 +46,8 @@ public class EntityHealth : MonoBehaviour, IDamagable
             return;
 
         currentHealth = entityStats.GetMaxHealth();
+        OnHealthUpdate += UpdateHealthBar;
+
         UpdateHealthBar();
         InvokeRepeating(nameof(RegenerateHealth), 0, regenInterval);
     }
@@ -68,6 +76,8 @@ public class EntityHealth : MonoBehaviour, IDamagable
         ReduceHealth(physicalDamageTaken + elementalDamageTaken);
 
         lastDamageTaken = physicalDamageTaken + elementalDamageTaken;
+
+        OnTakingDamage?.Invoke();
     }
 
     public void SetCanTakeDamage(bool canTakeDamage) => this.canTakeDamage = canTakeDamage;
@@ -77,7 +87,7 @@ public class EntityHealth : MonoBehaviour, IDamagable
         if (entityStats == null)
             return false;
         else
-            return Random.Range(0, 100) < entityStats.GetEvasion();
+            return UnityEngine.Random.Range(0, 100) < entityStats.GetEvasion();
     }
 
     private void RegenerateHealth()
@@ -98,14 +108,14 @@ public class EntityHealth : MonoBehaviour, IDamagable
         float maxHealth = entityStats.GetMaxHealth();
 
         currentHealth = Mathf.Min(newHealth, maxHealth);
-        UpdateHealthBar();
+        OnHealthUpdate?.Invoke();
     }
 
     public void ReduceHealth(float damage)
     {
         entityVFX?.PlayOnDamageVFX();
         currentHealth -= damage;
-        UpdateHealthBar();
+        OnHealthUpdate?.Invoke();
 
         if (currentHealth <= 0)
             Die();
@@ -115,6 +125,7 @@ public class EntityHealth : MonoBehaviour, IDamagable
     {
         isDead = true;
         entity?.EntityDeath();
+        dropManager?.DropItems();
     }
 
     private void UpdateHealthBar()
@@ -143,8 +154,10 @@ public class EntityHealth : MonoBehaviour, IDamagable
     public void SetHealthToPercent(float percent)
     {
         currentHealth = entityStats.GetMaxHealth() * Mathf.Clamp01(percent);
-        UpdateHealthBar();
+        OnHealthUpdate?.Invoke();
     }
+    public float GetCurrentHealth() => currentHealth;
+
     public float GetHealthPercent() => currentHealth / entityStats.GetMaxHealth();
     private float CalculateDuration(float damage) => IsHeavyDamage(damage) ? heavyKnockbackDuration : knockbackDuration;
     private bool IsHeavyDamage(float damage)
