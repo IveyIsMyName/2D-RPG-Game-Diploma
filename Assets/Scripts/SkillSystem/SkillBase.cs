@@ -64,4 +64,7 @@ public class SkillBase : MonoBehaviour
         player.ui.inGameUI.GetSkillSlot(skillType).ResetCooldown();
         lastTimeUsed = Time.time - cooldown;
     }
+
+    public SkillUpgradeType GetUpgrade() => upgradeType;
+    public SkillType GetSkillType() => skillType;
 }

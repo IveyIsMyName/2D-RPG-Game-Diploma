@@ -15,4 +15,6 @@ public class UIOptions : MonoBehaviour
 	{
 		ui.skillTreeUI.RefundAllSkills();
 	}
+
+	public void GoMainMenuBtn() => GameManager.instance.ChangeScene("MainMenu", RespawnType.None);
 }

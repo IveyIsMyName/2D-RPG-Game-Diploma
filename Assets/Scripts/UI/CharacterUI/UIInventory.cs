@@ -22,7 +22,14 @@ public class UIInventory : MonoBehaviour
         UpdateUI();
     }
 
-    private void UpdateUI()
+	private void OnEnable()
+	{
+        if (inventory == null)
+            return;
+        UpdateUI();
+	}
+
+	private void UpdateUI()
     {
         UpdadeInventorySlots();
         UpdateEquipmentSlots();

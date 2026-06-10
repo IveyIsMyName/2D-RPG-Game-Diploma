@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 
 public class Player : Entity
 {
+    public static Player instance;
     public static event Action OnPlayerDeath;
 
     public UI ui { get; private set; }
@@ -63,6 +64,7 @@ public class Player : Entity
     {
         base.Awake();
 
+        instance = this;
         ui = FindAnyObjectByType<UI>();
         skillManager = GetComponent<PlayerSkillManager>();
         vfx = GetComponent<PlayerVFX>();
