@@ -52,8 +52,7 @@ MonoBehaviour:
   - type: 13
     value: 5
   buffName: Electric Haste
-  buffDuration: 20
-  canBeUsed: 1
+  buffDuration: 30
   floatSpeed: 1
   floatRange: 0.2
 --- !u!61 &8687044156064933805

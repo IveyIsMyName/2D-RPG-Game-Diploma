@@ -92,6 +92,8 @@ public class UI : MonoBehaviour
         HideAllTooltips();
 
         StopPlayerControls(skillTreeEnabled);
+
+        Time.timeScale = skillTreeEnabled ? 0f : 1f;
     }
 
     public void ToggleInventoryUI()
@@ -105,7 +107,9 @@ public class UI : MonoBehaviour
         HideAllTooltips();
 
         StopPlayerControls(inventoryEnabled);
-    }
+
+		Time.timeScale = inventoryEnabled ? 0f : 1f;
+	}
 
     public void OpenOptionsUI()
     {

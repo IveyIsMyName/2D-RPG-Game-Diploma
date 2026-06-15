@@ -14,6 +14,7 @@ public class SkillObjectSword : SkillObjectBase
         HandleComeback();
     }
 
+
     public virtual void SetupSword(SkillSwordThrow swordManager, Vector2 direction)
     {
         rb.linearVelocity = direction;

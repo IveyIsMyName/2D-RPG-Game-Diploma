@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d31462a2d3a7aa14ca283048293ac503, type: 3}
+  m_Name: Item effect Data - Buff - Regenerate Health
+  m_EditorClassIdentifier: Assembly-CSharp::ItemEffectBuff
+  effectDescription: Regenerate health points +5 per sec for 10 seconds
+  buffsToApply:
+  - type: 1
+    value: 5
+  duration: 10
+  source: ad86d01e-d1c8-4993-81af-0f567b841bf1

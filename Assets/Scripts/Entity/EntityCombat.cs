@@ -37,7 +37,7 @@ public class EntityCombat : MonoBehaviour
             float elementalDamage = attackData.elementalDamage;
             ElementType element = attackData.element;
 
-            damagable.TakeDamage(physicalDamage, elementalDamage, element, transform);
+            damagable?.TakeDamage(physicalDamage, elementalDamage, element, transform);
 
             if (element != ElementType.None)
                 statusHandler?.ApplyStatusEffect(element, attackData.effectData);

@@ -11,7 +11,7 @@ public class UISkillTree : MonoBehaviour, ISaveable
     private UITreeNode[] allTreeNodes;
     public PlayerSkillManager skillManager { get; private set; }
 
-    private void Start()
+	private void Start()
 	{
 		UpdateAllConnections();
 		UpdateSkillPointsUI();
@@ -34,13 +34,23 @@ public class UISkillTree : MonoBehaviour, ISaveable
     [ContextMenu("Reset Skill Tree")]
     public void RefundAllSkills()
     {
-        UITreeNode[] skillNodes = GetComponentsInChildren<UITreeNode>();
+		UITreeNode[] skillNodes = GetComponentsInChildren<UITreeNode>();
 
-        foreach (var node in skillNodes)
-        {
-            node.Refund();
-        }
-    }
+		foreach (var node in skillNodes)
+		{
+			node.Refund();
+		}
+
+		// Дополнительно: убедимся, что все слоты видны
+		if (UI.instance?.inGameUI != null)
+		{
+			var slots = UI.instance.inGameUI.GetComponentsInChildren<UISkillSlot>(true);
+			foreach (var slot in slots)
+			{
+				slot.gameObject.SetActive(true); // Гарантируем, что слоты не скрыты
+			}
+		}
+	}
 
     public bool EnoughSkillPoints(int cost) => skillPoints >= cost;
     public void RemoveSkillPoints(int cost)

@@ -23,8 +23,8 @@ MonoBehaviour:
     upgradeType: 12
     cooldown: 4
     damageScale:
-      physical: 0.2
-      elemental: 0.2
+      physical: 0.5
+      elemental: 0.5
       chillDuration: 3
       chillSlowMultiplier: 0.2
       burnDuration: 3

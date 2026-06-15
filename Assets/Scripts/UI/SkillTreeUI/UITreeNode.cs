@@ -101,13 +101,38 @@ public class UITreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 		}
 	}
 
+	private void UnlockConflictNodes()
+	{
+		foreach (var node in conflictNodes)
+		{
+			if (node != null)
+			{
+				node.isLocked = false;
+				node.UnlockChildNodes();
+			}
+		}
+	}
+
 	public void LockChildNodes()
 	{
 		isLocked = true;
+		
 
 		foreach (var node in connectHandler.GetChildNodes())
 			node.LockChildNodes();
 
+	}
+	public void UnlockChildNodes()
+	{
+		isLocked = false;
+		if (connectHandler != null)
+		{
+			foreach (var node in connectHandler.GetChildNodes())
+			{
+				if (node != null)
+					node.UnlockChildNodes();
+			}
+		}
 	}
 
 	public void Refund()
@@ -120,7 +145,31 @@ public class UITreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 		UpdateIconColor(GetColorByHex(lockedColorHex));
 
 		skillTree?.AddSkillPoints(skillData.cost);
+
+		
+		if (skillTree != null && skillTree.skillManager != null)
+		{
+			var skill = skillTree.skillManager.GetSkillByType(skillData.skillType);
+			if (skill != null)
+			{
+				skill.ResetSkill(); 
+			}
+		}
 		connectHandler.UnlockConnectionImage(false);
+		UnlockConflictNodes();
+
+	}
+
+	public void ResetNode()
+	{
+		isLocked = false;
+
+		if (!skillData.unlockedByDefault)
+		{
+			isUnlocked = false;
+			UpdateIconColor(GetColorByHex(lockedColorHex));
+			connectHandler.UnlockConnectionImage(false);
+		}
 	}
 
 	private void UpdateIconColor(Color color)
@@ -195,4 +244,8 @@ public class UITreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 		skillCost = skillData.cost;
 		gameObject.name = "UI_TreeNode - " + skillData.displayName;
 	}
+
+	
+
+	
 }

@@ -11,6 +11,7 @@ public class EntityDropManager : MonoBehaviour
 	[Header("Drop restrictions")]
 	[SerializeField] private int maxRarityAmount = 1200;
 	[SerializeField] private int maxItemsToDrop = 3;
+	private bool hasDroppedItems = false;
 
 
 	private void Update()
@@ -20,6 +21,11 @@ public class EntityDropManager : MonoBehaviour
 	}
 	public virtual void DropItems()
 	{
+		if (dropData == null)
+			return;
+		if (hasDroppedItems) return; // Если уже дропали - выходим
+		hasDroppedItems = true;
+
 		List<ItemDataSO> itemsToDrop = RollDrops();
 		int amountToDrop = Mathf.Min(itemsToDrop.Count, maxItemsToDrop);
 
@@ -28,6 +34,25 @@ public class EntityDropManager : MonoBehaviour
 			CreateItemDrop(itemsToDrop[i]);
 		}
 	}
+
+	//public virtual void DropItems()
+	//{
+	//	Debug.Log($"DROP from {name}");
+
+	//	List<ItemDataSO> itemsToDrop = RollDrops();
+
+	//	Debug.Log($"Items rolled: {itemsToDrop.Count}");
+
+	//	int amountToDrop = Mathf.Min(itemsToDrop.Count, maxItemsToDrop);
+
+	//	Debug.Log($"Items spawned: {amountToDrop}");
+
+	//	for (int i = 0; i < amountToDrop; i++)
+	//	{
+	//		Debug.Log($"Spawning {itemsToDrop[i].name}");
+	//		CreateItemDrop(itemsToDrop[i]);
+	//	}
+	//}
 
 	protected void CreateItemDrop(ItemDataSO itemToDrop)
 	{
@@ -56,7 +81,7 @@ public class EntityDropManager : MonoBehaviour
 		//STEP 3: Add items to final drop list until rarity limit on entity is reached
 		foreach(var item in possibleDrops)
 		{
-			if(maxRarityAmount > item.itemRarity)
+			if(maxRarityAmount >= item.itemRarity)
 			{
 				finalDrops.Add(item);
 				maxRarityAmount -= item.itemRarity;

@@ -19,6 +19,8 @@ public class GameData
 
 	public GameData()
 	{
+		skillPoints = 50;
+
 		inventory = new SerializableDictionary<string, int>();
 		equipedItems = new SerializableDictionary<string, ItemType>();
 		skillTreeUI = new SerializableDictionary<string, bool>();

@@ -10,9 +10,16 @@ public class UISkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	private Image skillIcon;
 	private RectTransform rect;
 	private Button button;
+	private Sprite defaultBackgroundSprite;
 
 	private SkillDataSO skillData;
+
+	[Header("Skill Assignment")]
 	public SkillType skillType;
+
+	[Tooltip("Conflict skill")]
+	public SkillType conflictSkillType;
+
 	[SerializeField] private Image cooldownImage;
 	[SerializeField] private string inputKeyName;
 	[SerializeField] private TextMeshProUGUI inputKeyText;
@@ -24,6 +31,8 @@ public class UISkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 		button = GetComponent<Button>();
 		skillIcon = GetComponent<Image>();
 		rect = GetComponent<RectTransform>();
+
+		defaultBackgroundSprite = skillIcon.sprite;
 	}
 
 	private void OnValidate()
@@ -42,8 +51,29 @@ public class UISkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 		inputKeyText.text = inputKeyName;
 		skillIcon.sprite = selectedSkill.icon;
 
-		if(conflictSlot != null)
+		if (conflictSlot != null)
 			conflictSlot.SetActive(false);
+
+		gameObject.SetActive(true);
+	}
+
+	public void ClearSlot()
+	{
+		skillData = null;
+
+		if (defaultBackgroundSprite != null)
+		{
+			skillIcon.sprite = defaultBackgroundSprite;
+		}
+
+		ResetCooldown();
+
+		if (conflictSlot != null)
+		{
+			conflictSlot.SetActive(true);
+		}
+
+		gameObject.SetActive(true);
 	}
 
 	public void StartCooldown(float cooldown)

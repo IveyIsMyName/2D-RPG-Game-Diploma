@@ -498,6 +498,7 @@ Transform:
   m_Children:
   - {fileID: 7395798465949343681}
   - {fileID: 1550591896914229782}
+  - {fileID: 6532069414448498990}
   - {fileID: 6542314550946517614}
   - {fileID: 1419832982654871721}
   - {fileID: 1733496285864629622}
@@ -522,7 +523,7 @@ MonoBehaviour:
   groundCheckDistance: 0.5
   wallCheckDistance: 0.5
   groundCheck: {fileID: 1550591896914229782}
-  primaryWallCheck: {fileID: 8588133338388640129}
+  primaryWallCheck: {fileID: 6532069414448498990}
   secondaryWallCheck: {fileID: 0}
   battleMoveSpeed: 3
   attackDistance: 2
@@ -700,7 +701,7 @@ MonoBehaviour:
       modifiers: []
   resources:
     maxHealth:
-      baseValue: 200
+      baseValue: 300
       modifiers: []
     healthRegen:
       baseValue: 0
@@ -710,7 +711,7 @@ MonoBehaviour:
       baseValue: 1
       modifiers: []
     damage:
-      baseValue: 10
+      baseValue: 20
       modifiers: []
     critPower:
       baseValue: 150
@@ -921,7 +922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6171036352697788527
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1068,6 +1069,37 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &6307018752531756538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6532069414448498990}
+  m_Layer: 0
+  m_Name: PrimaryWallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6532069414448498990
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6307018752531756538}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.415, z: 0}
+  m_LocalScale: {x: 0.7692308, y: 0.7692308, z: 0.7692308}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8588133338388640129}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6811187600698697886
 GameObject:
   m_ObjectHideFlags: 0

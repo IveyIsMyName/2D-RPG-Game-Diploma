@@ -32,9 +32,17 @@ public class SkillBase : MonoBehaviour
         cooldown = upgrade.cooldown;
         damageScaleData = upgrade.damageScale;
 
-        player.ui.inGameUI.GetSkillSlot(skillType).SetupSkillSlot(skillData);
-        ResetCooldown();
-    }
+		var slot = player.ui.inGameUI.GetSkillSlot(skillType);
+		if (slot != null)
+		{
+			slot.SetupSkillSlot(skillData);
+			ResetCooldown();
+		}
+		else
+		{
+			Debug.LogError($"[SkillBase] Не найден UI слот для навыка: {skillType}. Проверьте настройки UISkillSlot в Инспекторе!");
+		}
+	}
 
     public virtual bool CanUseSkill()
     {
@@ -49,8 +57,23 @@ public class SkillBase : MonoBehaviour
 
         return true;
     }
+	public void ResetSkill()
+	{
+		upgradeType = SkillUpgradeType.None;
+		cooldown = 0f;
+		damageScaleData = new DamageScaleData();
 
-    protected bool Unlocked(SkillUpgradeType upgradeToCheck) => upgradeType == upgradeToCheck;
+		// Очищаем слот в интерфейсе
+		var slot = player.ui.inGameUI.GetSkillSlot(skillType);
+		if (slot != null)
+		{
+			slot.ClearSlot(); 
+		}
+
+		ResetCooldown();
+	}
+
+	protected bool Unlocked(SkillUpgradeType upgradeToCheck) => upgradeType == upgradeToCheck;
 
     protected bool OnCooldown() => Time.time < lastTimeUsed + cooldown;
     public void SetSkillOnCooldown()

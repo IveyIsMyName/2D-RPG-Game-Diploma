@@ -85,7 +85,7 @@ public class UIInGame : MonoBehaviour
 
 		foreach (var slot in skillSlots)
 		{
-			if (slot.skillType == skillType)
+			if (slot.skillType == skillType || slot.conflictSkillType == skillType)
 			{
 				slot.gameObject.SetActive(true);
 				return slot;
@@ -93,7 +93,17 @@ public class UIInGame : MonoBehaviour
 		}
 		return null;
 	}
+	public void ClearAllSkillSlots()
+	{
+		if (skillSlots == null)
+			skillSlots = GetComponentsInChildren<UISkillSlot>(true);
 
+		foreach (var slot in skillSlots)
+		{
+			slot.ClearSlot();
+			slot.gameObject.SetActive(true);
+		}
+	}
 	private void UpdateHealthBar()
 	{
 		float currentHealth = Mathf.RoundToInt(player.health.GetCurrentHealth());
